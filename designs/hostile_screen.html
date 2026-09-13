@@ -1,118 +1,68 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Kiwi - Connection Blocked (Minimalist Light)</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-<style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Kiwi - Connection Not Verified</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <style>
     body {
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #FDE8E8;
+      color: #151719;
       -webkit-font-smoothing: antialiased;
-    }
-    .font-sans-sub {
-      font-family: 'Inter', sans-serif;
-    }
-    @keyframes subtle-pulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.55;
-      }
-      50% {
-        transform: scale(1.08);
-        opacity: 0.85;
-      }
-    }
-    @keyframes outer-pulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.3;
-      }
-      50% {
-        transform: scale(1.15);
-        opacity: 0.55;
-      }
-    }
-    .animate-ring-inner {
-      animation: subtle-pulse 3.8s ease-in-out infinite;
-    }
-    .animate-ring-outer {
-      animation: outer-pulse 4.4s ease-in-out infinite;
     }
   </style>
 </head>
-<body class="bg-[#FEF2F2] min-h-screen text-slate-800 flex flex-col justify-between items-center p-6 sm:p-8 relative overflow-hidden select-none max-w-[390px] mx-auto">
-<!-- Background Ambient Glow -->
-<div class="absolute inset-0 pointer-events-none flex items-center justify-center -z-10">
-<div class="w-[340px] h-[340px] rounded-full bg-red-100/60 blur-3xl"></div>
-</div>
-<!-- Top Header -->
-<header class="w-full max-w-sm flex items-center justify-between pt-2">
-<!-- Brand Logo Minimal -->
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-full bg-white shadow-xs border border-red-100/80 flex items-center justify-center text-[#EF4444]">
-<span class="material-symbols-outlined text-[18px]">shield</span>
-</div>
-<span class="font-bold text-[18px] tracking-tight text-slate-900">Kiwi</span>
-</div>
-<!-- Status Badge -->
-<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-red-100 shadow-xs">
-<span class="w-2 h-2 rounded-full bg-[#EF4444] animate-ping"></span>
-<span class="font-sans-sub text-[11px] font-semibold text-[#EF4444] tracking-wider uppercase">Isolated</span>
-</div>
-</header>
-<!-- Center Content -->
-<main class="w-full max-w-sm flex flex-col items-center justify-center my-auto py-8 text-center">
-<!-- Concentric Rings & Wi-Fi Icon Graphic -->
-<div class="relative w-64 h-64 flex items-center justify-center mb-8">
-<!-- Outermost Pulse Ring -->
-<div class="absolute w-56 h-56 rounded-full border border-red-200/50 animate-ring-outer"></div>
-<!-- Middle Ring with glow -->
-<div class="absolute w-44 h-44 rounded-full border border-red-200/80 bg-red-50/40 animate-ring-inner"></div>
-<!-- Center White Circle with Shadow -->
-<div class="relative w-28 h-28 rounded-full bg-white shadow-lg shadow-red-500/10 border border-red-100/70 flex items-center justify-center z-10 transition-transform active:scale-95 duration-200">
-<!-- Wi-Fi Off / Blocked Icon -->
-<div class="text-[#EF4444] flex items-center justify-center">
-<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 0, 'wght' 450;">wifi_off</span>
-</div>
-<!-- Warning Alert Badge Overlay -->
-<div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#EF4444] text-white flex items-center justify-center shadow-md shadow-red-500/30 border-2 border-white">
-<span class="material-symbols-outlined text-[17px]" style="font-variation-settings: 'FILL' 1, 'wght' 600;">priority_high</span>
-</div>
-</div>
-</div>
-<!-- Typography Content -->
-<div class="space-y-2 px-2">
-<h1 class="text-[26px] sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
-        Connection Blocked
+<body class="min-h-screen flex items-center justify-center p-4">
+  <!-- Mobile Frame Container -->
+  <div class="w-full max-w-[390px] h-[844px] bg-[#FDE8E8] rounded-[48px] shadow-2xl flex flex-col justify-between p-6 relative overflow-hidden border border-red-100">
+    
+    <!-- Top Header -->
+    <header class="flex items-center space-x-3 pt-2">
+      <div class="w-11 h-11 bg-gray-200/80 rounded-xl flex items-center justify-center shadow-sm">
+        <span class="material-symbols-outlined text-gray-800 text-2xl">psychology_alt</span>
+      </div>
+      <span class="text-2xl font-bold tracking-tight text-gray-900">Kiwi</span>
+    </header>
+
+    <!-- Center Graphic: Concentric Circles with Off-Wi-Fi Icon -->
+    <main class="flex-1 flex flex-col items-center justify-center my-auto">
+      <div class="relative w-64 h-64 flex items-center justify-center">
+        <!-- Outer Circle -->
+        <div class="absolute inset-0 rounded-full bg-[#FCE1E1]/60 flex items-center justify-center">
+          <!-- Middle Circle -->
+          <div class="w-48 h-48 rounded-full bg-[#FCD5D5] flex items-center justify-center">
+            <!-- Inner Circle -->
+            <div class="w-32 h-32 rounded-full bg-[#FBBFBF] flex items-center justify-center shadow-inner">
+              <span class="material-symbols-outlined text-gray-900 text-5xl">portable_wifi_off</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-[28px] font-extrabold text-gray-900 tracking-tight mt-10 text-center">
+        Connection Not Verified
       </h1>
-<p class="font-sans-sub text-[13.5px] leading-relaxed text-slate-500 max-w-[260px] mx-auto font-medium">
-        No Hardware Signature Detected<br/>
-<span class="text-[#DC2626] font-semibold text-[12.5px] tracking-wide inline-block mt-1 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-100/80">Evil Twin Attack</span>
-</p>
-</div>
-</main>
-<!-- Bottom CTA Controls -->
-<footer class="w-full max-w-sm flex flex-col items-center gap-3 pb-4">
-<!-- Sleek Red Pill Button -->
-<button class="w-full py-4 px-6 rounded-full bg-[#EF4444] hover:bg-[#DC2626] active:scale-[0.98] text-white font-semibold text-[15px] shadow-lg shadow-red-500/25 flex items-center justify-center gap-2 transition-all duration-150">
-<span class="material-symbols-outlined text-[19px]">block</span>
-<span>Blocked for Safety</span>
-</button>
-<!-- Subtle Small Gray Link -->
-<button class="font-sans-sub text-[13px] text-slate-400 hover:text-slate-600 transition-colors py-1 flex items-center gap-1 font-medium group">
-<span>Advanced Bypass</span>
-<span class="material-symbols-outlined text-[14px] text-slate-400 group-hover:translate-x-0.5 transition-transform">chevron_right</span>
-</button>
-<!-- Subtle Micro Footer Text -->
-<div class="font-mono text-[10px] text-slate-400 tracking-wider uppercase pt-1">
-      802.11ax • Zero-Trust Mode
-    </div>
-</footer>
+    </main>
+
+    <!-- Bottom Actions -->
+    <footer class="flex flex-col space-y-4 pb-4">
+      <!-- Main Orange Button -->
+      <button type="button" class="w-full h-14 bg-[#FF7A38] text-white font-bold text-lg rounded-full shadow-md hover:bg-[#F26A27] transition-colors flex items-center justify-center">
+        Blocked for safety
+      </button>
+
+      <!-- Bypass Link -->
+      <button type="button" class="w-full flex items-center justify-center space-x-1.5 text-gray-700 hover:text-gray-900 text-base italic font-medium pt-1">
+        <span>Bypass anyway</span>
+        <span class="material-symbols-outlined text-xl not-italic">arrow_forward</span>
+      </button>
+    </footer>
+
+  </div>
 </body>
 </html>
