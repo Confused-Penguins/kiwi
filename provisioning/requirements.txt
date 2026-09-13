@@ -1,0 +1,2 @@
+# KIWI Provisioning Requirements
+cryptography>=41.0.0

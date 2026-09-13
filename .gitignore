@@ -1,0 +1,52 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+*.env
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+ephemeral/
+
+# Android
+**/android/.gradle/
+**/android/local.properties
+**/android/app/SDK_LOCATION
+**/android/app/libs/
+**/android/app/src/main/java/io/flutter/plugins/
+**/android/kiwi_mobile_android.iml
+
+# iOS / macOS
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/ephemeral/
+**/ios/Runner/GeneratedPluginRegistrant.h
+**/ios/Runner/GeneratedPluginRegistrant.m
+**/macos/Flutter/ephemeral/
+
+# IDE & Tooling
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# Build artifacts & Scratch
+scratch/

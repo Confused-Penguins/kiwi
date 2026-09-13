@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "updated_at": 1789189421,
+  "description": "KIWI Authoritative Certificate Revocation List (CRL)",
+  "revoked_devices": [
+    {
+      "device_id": "KIWI-COMPROMISED-001",
+      "revoked_at": 1726120000,
+      "reason": "Reported stolen or physically extracted private key"
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+<!-- Kiwi Security - Nearby Networks -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>KIWI Network Discovery</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#DCE0E5',
+            cardBg: '#FFFFFF',
+            brandDark: '#111827',
+            mutedText: '#64748B',
+            kiwiGreen: '#10B981',
+            kiwiGreenSoft: '#ECFDF5',
+            kiwiGreenBorder: '#A7F3D0',
+            kiwiRed: '#EF4444',
+            kiwiRedSoft: '#FEF2F2',
+            kiwiRedBorder: '#FECACA',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 4px 20px -2px rgba(17, 24, 39, 0.05), 0 2px 6px -1px rgba(17, 24, 39, 0.02)',
+            sheet: '0 -10px 40px rgba(0, 0, 0, 0.15)',
+          },
+          borderRadius: {
+            '24px': '24px',
+            '32px': '32px',
+            '36px': '36px',
+          },
+        },
+      },
+    };
+  </script>
+<!-- BEGIN: Custom CSS -->
+<style data-purpose="custom-animations">
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.85);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 0.3;
+      }
+      100% {
+        transform: scale(0.85);
+        opacity: 0.8;
+      }
+    }
+    .animate-pulse-slow {
+      animation: pulse-ring 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    /* Hide scrollbars for clean mobile appearance */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<!-- END: Custom CSS -->
+</head>
+<body class="bg-slate-900 text-brandDark font-sans antialiased min-h-screen flex items-center justify-center p-0 selection:bg-kiwiGreen selection:text-white">
+<!-- BEGIN: Mobile Frame Simulator Container (393px x 852px, rounded-36px, borderless) -->
+<div class="w-[393px] h-[852px] bg-[#DCE0E5] rounded-36px relative overflow-hidden flex flex-col shadow-2xl select-none">
+<!-- BEGIN: iOS Status Bar -->
+<header class="w-full pt-3 px-6 flex justify-between items-center z-20 shrink-0 select-none"><span class="text-xs font-semibold text-brandDark tracking-tight">09:41</span><div class="w-3 h-3 bg-black rounded-full mx-auto"></div><div class="flex items-center justify-end space-x-1.5 text-brandDark"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L2 21h20L12 3z"></path></svg><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4zm0 2.82c3.78 0 7.21 1.48 9.77 3.91L12 18.52 2.23 10.73C4.79 8.3 8.22 6.82 12 6.82z"></path></svg><div class="flex items-center space-x-1"><span class="text-[11px] font-semibold">94%</span><div class="w-5 h-2.5 rounded-[2px] border border-brandDark/80 p-0.5 flex items-center"><div class="h-full w-[90%] bg-brandDark rounded-[1px]"></div></div></div></div></header>
+<!-- END: iOS Status Bar -->
+<!-- BEGIN: Navigation & Page Header -->
+<nav aria-label="Page navigation" class="pt-4 pb-2 px-6 flex items-center justify-between shrink-0">
+<button aria-label="Back to dashboard" class="w-11 h-11 rounded-full bg-white shadow-sm flex items-center justify-center text-brandDark active:scale-95 transition-transform duration-150 border border-black/5" onclick="window.history.back()" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<h1 class="text-xl font-bold text-brandDark tracking-tight">Nearby Networks</h1>
+<button aria-label="Refresh networks" class="w-11 h-11 rounded-full bg-white shadow-sm flex items-center justify-center text-brandDark active:scale-95 transition-transform duration-150 border border-black/5" type="button">
+<svg class="w-5 h-5 text-brandDark" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</nav>
+<!-- END: Navigation & Page Header -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-1 px-5 pb-24 flex flex-col space-y-4 overflow-y-auto no-scrollbar">
+<!-- Discovery Modes Segmented Control -->
+<div class="bg-white px-4 py-3 rounded-2xl border border-black/5 shadow-sm flex items-center space-x-3 shrink-0"><svg class="w-5 h-5 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg><input type="text" placeholder="Search Wi-Fi Networks..." class="w-full bg-transparent text-xs font-medium text-brandDark placeholder:text-mutedText focus:outline-none border-none p-0"></div>
+<!-- Caption -->
+<div class="px-1">
+<p class="text-[13px] font-medium text-slate-500">Available networks detected nearby</p>
+</div>
+<!-- Network Cards List -->
+<section class="space-y-3.5 pt-0.5">
+<!-- Card 1: Verified AP -->
+<article class="bg-cardBg rounded-24px p-4 border border-black/5 shadow-card flex items-center justify-between gap-3 hover:shadow-md transition-shadow">
+<div class="flex items-center space-x-3 min-w-0">
+<div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<div class="min-w-0">
+<h3 class="text-sm font-bold text-brandDark tracking-tight truncate">Station_Guest_WiFi</h3>
+<p class="text-xs font-medium text-slate-500 truncate mt-0.5">Open Network • Strong Signal</p>
+</div>
+</div>
+<button class="px-5 py-2.5 rounded-full bg-brandDark hover:bg-black text-white text-xs font-semibold tracking-tight shadow-md active:scale-95 transition-all shrink-0 min-w-[84px] text-center" onclick="openHandshakeModal('verified')" type="button">Verify</button>
+</article>
+<!-- Card 2: Legacy AP -->
+<article class="bg-cardBg rounded-24px p-4 border border-black/5 shadow-card flex items-center justify-between gap-3 hover:shadow-md transition-shadow">
+<div class="flex items-center space-x-3 min-w-0">
+<div class="w-12 h-12 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center shrink-0">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="min-w-0">
+<h3 class="text-sm font-bold text-brandDark tracking-tight truncate">Airport_Free_Network</h3>
+<p class="text-xs font-medium text-slate-500 truncate mt-0.5">Open Network • Fair Signal</p>
+</div>
+</div>
+<button class="px-5 py-2.5 rounded-full bg-transparent hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-semibold tracking-tight active:scale-95 transition-all shrink-0 min-w-[84px] text-center" onclick="openHandshakeModal('insecure')" type="button">Verify</button>
+</article>
+</section>
+</main>
+<!-- END: Main Content Area -->
+<!-- BEGIN: iOS Home Bar Indicator -->
+<div class="absolute bottom-2 inset-x-0 flex justify-center pb-1 z-30 pointer-events-none"><div class="w-20 h-1 bg-slate-400/80 rounded-full"></div></div>
+<!-- END: iOS Home Bar Indicator -->
+<!-- BEGIN: Handshake Verification Modal Overlay -->
+<div aria-hidden="true" class="absolute inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="handshakeModal">
+<!-- Modal Bottom Sheet Surface -->
+<div class="w-full bg-white rounded-t-32px px-6 pt-3 pb-8 shadow-sheet transform translate-y-full transition-transform duration-300 ease-out flex flex-col space-y-4" id="modalSheet">
+<!-- Sheet Drag Handle -->
+<div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-1"></div>
+<!-- Modal Header with Title & Dismiss Button -->
+<div class="flex items-center justify-between pb-1">
+<div>
+<h2 class="text-xl font-bold text-brandDark">Network Handshake Test</h2>
+<p class="text-xs font-medium text-mutedText">KIWI Anchor Hardware Validation</p>
+</div>
+<button aria-label="Close handshake verification modal" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors" onclick="closeHandshakeModal()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Central Mascot & Radar Pulse Element -->
+<div class="relative py-4 flex flex-col items-center justify-center">
+<!-- Animated Ring Echoes -->
+<div class="absolute w-36 h-36 rounded-full border-2 border-emerald-400/40 animate-pulse-slow" id="radarRing"></div>
+<div class="absolute w-28 h-28 rounded-full bg-emerald-50/60 -z-0"></div>
+<!-- Mascot Kiwi Center Circle -->
+<div class="relative w-20 h-20 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center z-10">
+<svg class="w-10 h-10 text-brandDark" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 64 64">
+<path d="M34 16C23 16 14 24 14 36C14 46 22 53 32 53C43 53 50 44 50 33C50 25 43 16 34 16Z"></path>
+<path d="M47 25C54 26 60 22 62 17"></path>
+<circle cx="40" cy="24" fill="currentColor" r="2"></circle>
+<path d="M26 53V59M23 59H29"></path>
+<path d="M36 53V59M33 59H39"></path>
+</svg>
+<!-- Little status indicator dot on mascot -->
+<span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white" id="mascotBadgeDot">
+<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+</span>
+</div>
+</div>
+<!-- Dynamic Security Status Card -->
+<!-- STATE A: Verified View -->
+<div class="p-4 rounded-24px bg-kiwiGreenSoft border border-kiwiGreenBorder space-y-2" id="verifiedStateView">
+<div class="flex items-center space-x-2.5">
+<div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zm3.707 6.764a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-emerald-950">Hardware Authenticated</h3>
+<p class="text-[11px] text-emerald-700 font-medium">Valid Anchor Signature</p>
+</div>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed pt-1">
+            Ed25519 cryptographic signature confirmed with Kiwi Trust Root. Session is shielded against ARP spoofing and rogue AP cloning.
+          </p>
+<div class="pt-2">
+<button class="w-full py-3 rounded-full bg-brandDark hover:bg-black text-white text-xs font-bold tracking-tight shadow-md active:scale-95 transition-transform" onclick="closeHandshakeModal()" type="button">
+              Safe to Browse
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- END: Handshake Verification Modal Overlay -->
+</div>
+<!-- END: Mobile Frame Simulator Container -->
+</body></html>

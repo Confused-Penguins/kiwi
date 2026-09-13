@@ -1,0 +1,7 @@
+{
+  "NOTICE": "CRITICAL SECURITY RISK: SENSITIVE ROOT CA PRIVATE KEY. NEVER COMMIT OR DISTRIBUTE.",
+  "algorithm": "Ed25519 (RFC 8032)",
+  "role": "KIWI Root Certificate Authority",
+  "private_key_hex": "a22c3f50eac47a10511297f7014d090a98fd1bb819edd176ef4a4f1d7bd505dd",
+  "public_key_hex": "e0db24a70d30b685e1cad73648f1f0b690966bfc05bf6d3900f151cdd46b312a"
+}

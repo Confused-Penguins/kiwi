@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Kiwi - Connection Verified</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.65;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.25;
+      }
+    }
+    @keyframes pulse-outer {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+      }
+      50% {
+        transform: scale(1.08);
+        opacity: 0.12;
+      }
+    }
+    .animate-pulse-slow {
+      animation: pulse-subtle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .animate-pulse-slower {
+      animation: pulse-outer 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .glow-mint-center {
+      box-shadow: 0 20px 48px -10px rgba(16, 185, 129, 0.3), 0 0 0 1px rgba(16, 185, 129, 0.08);
+    }
+    .btn-glow {
+      box-shadow: 0 12px 28px -4px rgba(16, 185, 129, 0.42), 0 4px 12px -2px rgba(16, 185, 129, 0.24);
+    }
+  </style>
+</head>
+<body class="bg-[#F2FBF5] min-h-screen text-slate-800 flex justify-center items-center selection:bg-emerald-100 selection:text-emerald-900" style="background-color: rgb(46, 231, 172);">
+<!-- Mobile Viewport Container (~390px portrait frame) -->
+<div class="w-full max-w-[390px] mx-auto min-h-screen flex flex-col justify-between px-5 py-4 relative overflow-hidden bg-gradient-to-b from-[#EDFBF3] via-[#F4FCF7] to-[#ECFAF2]" style="background-color: rgb(46, 231, 172);">
+<!-- Ambient Glowing Backdrop -->
+<div class="pointer-events-none absolute inset-0 flex items-center justify-center -z-10">
+<div class="w-[340px] h-[340px] rounded-full bg-gradient-to-tr from-emerald-200/45 via-teal-100/35 to-transparent blur-3xl"></div>
+</div>
+<!-- Top Mobile App Header & Status Bar -->
+<header class="w-full flex flex-col gap-3 pt-1">
+<!-- Native Mobile Status Bar Row (Time, Battery/Signal) -->
+<div class="flex items-center justify-between text-xs font-semibold text-slate-700 px-1 select-none">
+<span class="">9:41</span>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-[15px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[15px]">wifi</span>
+<span class="material-symbols-outlined text-[17px]">battery_full</span>
+</div>
+</div>
+<!-- Kiwi App Header Row -->
+<div class="flex items-center justify-between pt-1">
+<!-- Logo & Brand Name -->
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm">
+<span class="material-symbols-outlined text-[#10B981] text-[18px]">verified_user</span>
+</div>
+<span class="font-display text-lg font-bold tracking-tight text-slate-900">Kiwi</span>
+</div>
+<!-- Online Status Indicator Badge -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-emerald-300/60 shadow-sm text-xs font-semibold text-emerald-800 backdrop-blur-md">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
+</span>
+<span class="tracking-wide">ONLINE</span>
+</div>
+</div>
+</header>
+<!-- Center Graphic & Verification State -->
+<main class="w-full flex-1 flex flex-col items-center justify-center py-4">
+<!-- Concentric Pulse Rings & Circular Emblem -->
+<div class="relative flex items-center justify-center mb-6">
+<!-- Outermost Pulse Ring -->
+<div class="absolute w-64 h-64 rounded-full border border-emerald-400/35 bg-emerald-100/25 animate-pulse-slower"></div>
+<!-- Mid Pulse Ring -->
+<div class="absolute w-48 h-48 rounded-full border border-emerald-400/45 bg-emerald-200/25 animate-pulse-slow"></div>
+<!-- Core White Circular Shield with Mint Wi-Fi & Checkmark -->
+<div class="relative z-10 w-32 h-32 rounded-full bg-white glow-mint-center flex flex-col items-center justify-center border border-emerald-100/90 transition-transform active:scale-95 duration-200 shadow-xl">
+<!-- Wi-Fi Vector Graphic -->
+<svg class="w-14 h-14 text-[#10B981]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+<path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+<path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+<circle cx="12" cy="20" fill="currentColor" r="1"></circle>
+</svg>
+<!-- Overlaid Verified Checkmark Badge -->
+<div class="absolute bottom-0 right-1 w-7 h-7 rounded-full bg-[#10B981] text-white flex items-center justify-center border-2 border-white shadow-md">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</div>
+</div>
+</div>
+<!-- Typography Block -->
+<div class="text-center px-4 space-y-1.5">
+<h1 class="text-2xl font-bold text-slate-900 tracking-tight font-display">
+Connection Verified
+</h1>
+<p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-[280px] mx-auto">
+Hardware Trust Anchor Confirmed <span class="block text-emerald-700 font-semibold mt-0.5">(ESP32 Verified)</span>
+</p>
+</div>
+</main>
+<!-- Bottom Action & Mobile Footer -->
+<footer class="w-full flex flex-col items-center gap-3 pt-2 pb-1">
+<!-- Touch-ergonomic CTA Button -->
+<button class="w-full py-4 px-6 rounded-full bg-[#10B981] hover:bg-emerald-600 active:scale-[0.98] text-white font-semibold text-base flex items-center justify-center gap-2.5 btn-glow transition-all duration-150 touch-manipulation" type="button">
+<span class="material-symbols-outlined text-[21px]">verified_user</span>
+<span class="">Connected &amp; Secure</span>
+</button>
+<!-- Security Protocol Tagline -->
+<p class="text-center text-[11px] text-slate-400 font-semibold tracking-wider uppercase">
+802.11AX • ZERO-TRUST MODE
+</p>
+<!-- iOS Home Indicator -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mt-1 opacity-60"></div>
+</footer>
+</div>
+
+
+</body></html>

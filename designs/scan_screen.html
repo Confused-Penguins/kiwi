@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-900" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Kiwi - Minimalist Wi-Fi Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              teal: '#008378',
+              primary: '#006948',
+              blue: '#0284c7',
+            }
+          },
+          animation: {
+            'ripple-slow': 'ripple 4s cubic-bezier(0, 0.2, 0.8, 1) infinite',
+            'ripple-delayed': 'ripple 4s cubic-bezier(0, 0.2, 0.8, 1) 2s infinite',
+          },
+          keyframes: {
+            ripple: {
+              '0%': { transform: 'scale(0.85)', opacity: '0.45' },
+              '60%': { transform: 'scale(1.15)', opacity: '0.15' },
+              '100%': { transform: 'scale(1.35)', opacity: '0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .orb-shadow {
+      box-shadow: 0 16px 36px -8px rgba(2, 132, 199, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #0087cb 0%, #009c91 55%, #05a87b 100%);
+      box-shadow: 0 12px 24px -4px rgba(0, 135, 203, 0.35), 0 4px 10px -2px rgba(5, 168, 123, 0.25);
+    }
+    .btn-gradient:active {
+      transform: scale(0.98);
+      filter: brightness(0.96);
+    }
+    /* Hide scrollbar */
+    body::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-950 font-sans antialiased text-slate-800 flex justify-center items-center select-none">
+<!-- Mobile Screen Container (~390px native mobile portrait viewport) -->
+<div class="relative w-full max-w-[390px] h-[844px] max-h-screen bg-[#F0F4F8] flex flex-col justify-between overflow-hidden shadow-2xl sm:rounded-[48px] sm:border-[8px] sm:border-slate-800/80">
+<!-- iOS Dynamic Island / Status Bar Area -->
+<div class="pt-3 px-7 flex justify-between items-center z-30 select-none pointer-events-none">
+<span class="text-xs font-semibold tracking-tight text-slate-700">9:41</span>
+<!-- Dynamic Island pill (subtle mockup) -->
+<div class="w-24 h-5 bg-black rounded-full hidden sm:block"></div>
+<div class="flex items-center gap-1.5 text-slate-700">
+<span class="material-symbols-outlined text-[15px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[15px]">wifi</span>
+<span class="material-symbols-outlined text-[17px]">battery_full</span>
+</div>
+</div>
+<!-- Ambient background glows -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+<div class="w-[340px] h-[340px] rounded-full bg-sky-200/35 blur-3xl -translate-y-6"></div>
+<div class="w-[280px] h-[280px] rounded-full bg-emerald-200/30 blur-2xl translate-y-8"></div>
+</div>
+<!-- Mobile App Header -->
+<header class="w-full px-6 pt-3 pb-2 flex items-center justify-between relative z-20">
+<!-- Kiwi Logo & Brand -->
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#0284c7] border border-sky-100">
+<span class="material-symbols-outlined text-[20px]">shield_lock</span>
+</div>
+<span class="font-display text-[20px] font-bold tracking-tight text-slate-900">Kiwi</span>
+</div>
+<!-- READY Status Badge -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/70 shadow-xs">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="text-[11px] font-semibold tracking-wider text-slate-600 font-mono uppercase">READY</span>
+</div>
+</header>
+<!-- Center Interactive Visual & Messaging -->
+<main class="flex-1 flex flex-col items-center justify-center px-6 relative z-10 -mt-2">
+<!-- Concentric Radar / Signal Rings Graphic -->
+<div class="relative flex items-center justify-center w-72 h-72">
+<!-- Outermost Ripple Ring -->
+<div class="absolute w-72 h-72 rounded-full border border-sky-300/40 bg-sky-100/10 animate-ripple-slow"></div>
+<!-- Middle Ripple Ring -->
+<div class="absolute w-60 h-60 rounded-full border border-teal-300/40 bg-teal-50/15 animate-ripple-delayed"></div>
+<!-- Static Inner Radial Ring 3 -->
+<div class="absolute w-56 h-56 rounded-full border border-sky-200/60 bg-white/20 backdrop-blur-[2px]"></div>
+<!-- Static Inner Radial Ring 2 -->
+<div class="absolute w-44 h-44 rounded-full border border-emerald-300/50 bg-emerald-50/30"></div>
+<!-- Center Orb with Wi-Fi Icon & Frequency Chip -->
+<div class="relative z-10 w-32 h-32 rounded-full bg-white orb-shadow border border-white/90 flex flex-col items-center justify-center group active:scale-95 transition-transform duration-200">
+<!-- Circular subtle inner disc -->
+<div class="w-20 h-20 rounded-full bg-gradient-to-b from-sky-50 to-teal-50/80 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-[#0284c7] drop-shadow-xs transition-colors group-hover:text-teal-600">
+              wifi
+            </span>
+</div>
+<!-- Frequency Protocol Chip (802.11ax) positioned overlapping bottom edge -->
+<div class="absolute -bottom-2.5 px-3 py-0.5 rounded-full bg-slate-900 text-[10px] font-mono font-medium tracking-wide text-slate-100 shadow-md border border-slate-800 flex items-center gap-1">
+<span>802.11ax</span>
+</div>
+</div>
+</div>
+<!-- Headline & Description -->
+<div class="mt-8 text-center space-y-1.5 max-w-[280px]">
+<h1 class="font-display text-[23px] font-bold tracking-tight text-slate-900 leading-tight">
+          Verify Your Connection
+        </h1>
+<p class="text-[13px] font-normal text-slate-500 leading-relaxed font-sans">
+          Hardware-Verified Wi-Fi Security
+        </p>
+</div>
+</main>
+<!-- Bottom Action CTA & Footer -->
+<footer class="w-full px-6 pb-8 pt-2 flex flex-col items-center gap-4 relative z-20">
+<!-- Primary Action Button -->
+<button class="btn-gradient w-full py-4 px-6 rounded-full text-white font-medium text-[15px] tracking-wide flex items-center justify-center gap-2 transition-all duration-150 active:shadow-sm" type="button">
+<span>Verify Network</span>
+<span class="material-symbols-outlined text-[19px] translate-y-[0.5px]">arrow_forward</span>
+</button>
+<!-- Subtitle/Footer note -->
+<p class="text-[10px] font-mono tracking-[0.14em] uppercase text-slate-400 text-center font-medium">
+        KIWI ZERO-TRUST ANCHOR • PURE MODE
+      </p>
+<!-- iOS Home Indicator bar -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mt-1"></div>
+</footer>
+</div>
+</body></html>

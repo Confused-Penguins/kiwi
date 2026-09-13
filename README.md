@@ -1,141 +1,149 @@
-# Kiwi: Hardware-Verified Wi-Fi Trust Anchor 🥝📶
+# KIWI: Your Wi-Fi Safety Companion
 
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Flutter](https://img.shields.io/badge/Flutter-Client-02569B?logo=flutter)](https://flutter.dev)
-[![ESP32](https://img.shields.io/badge/ESP32-Hardware%20Anchor-E7352C?logo=espressif)](https://www.espressif.com/)
-[![Ed25519](https://img.shields.io/badge/Cryptography-Ed25519-green.svg)](https://ed25519.cr.yp.to/)
-
-Kiwi shifts the public Wi-Fi trust model from vulnerable software-level assumptions to a **physical hardware anchor**. 
-
-Using an ESP32 microcontroller as a cryptographic beacon and gateway, public Wi-Fi networks mathematically prove their legitimacy to a user's mobile device via deterministic **Ed25519 challenge-response signing**. If the cryptographic proof is absent, forged, or invalid (such as in an **Evil Twin** or rogue captive portal attack), the client application activates an aggressive **"Iron Gate"** lockdown to protect user credentials and network traffic.
+> **Zero-Trust Verification Against Rogue Access Points & "Evil Twins"**  
+> Cryptographically authenticate open Wi-Fi gateways on first contact with zero prior setup using an asymmetric Ed25519 Certificate Authority (CA) trust model.
 
 ---
 
-## 📌 Problem Statement
+## 1. System Overview & Problem Statement
 
-Public Wi-Fi networks (e.g., at airports, cafes, or railway stations) are susceptible to **Evil Twin attacks**:
-1. Malicious actors spoof legitimate SSIDs (e.g., `Railway_Free_WiFi`).
-2. Devices connect automatically based on SSID matching.
-3. Fake captive portals harvest personal credentials or intercept unencrypted traffic.
+Public and open Wi-Fi networks (airports, hotels, cafes) are fundamentally vulnerable to **"Evil Twin"** attacks: an adversary creates a spoofed access point broadcasting the identical SSID and BSSID as a legitimate hotspot. When victim devices connect, the adversary intercepts DNS requests, injects malicious captive portals, and harvests credentials.
 
-Traditional countermeasures (WPA2/3 Enterprise, 802.1X certificates) are cumbersome, rarely supported on open public hotspots, and vulnerable to misconfiguration by non-technical users.
+Traditional enterprise solutions (WPA3-Enterprise 802.1X, RADIUS) require complex configuration profiles and pre-shared user credentials impossible for ad-hoc public environments.
 
----
-
-## 💡 The Kiwi Solution
-
-Kiwi introduces an out-of-band cryptographic handshake executed strictly over the Local Area Network (LAN):
-- **Zero Internet Dependency:** The verification happens directly over the local network created by the ESP32 gateway.
-- **Deterministic Cryptography:** Uses **Ed25519** (256-bit Edwards-curve Digital Signature Algorithm), avoiding vulnerabilities associated with weak pseudo-random number generation on microcontrollers.
-- **Replay Protection:** The mobile client (verifier) generates a unique single-use cryptographic **nonce** for every connection attempt.
-- **"Iron Gate" UX:** A high-friction mobile interface that blocks network access on verification failure, displaying a full-screen red warning with intentional friction before allowing any bypass.
+**KIWI solves this on first contact with zero prior setup**:
+1. A single authoritative **KIWI Root Ed25519 Keypair** acts as a lightweight Certificate Authority (CA).
+2. The **Root Public Key** is safely hardcoded into the mobile application. The Root Private Key is kept strictly offline.
+3. Every genuine ESP32 gateway generates its own Ed25519 keypair on-device in hardware/NVS and receives a signed certificate from the Root CA.
+4. When a phone associates with the gateway, it conducts an automated **two-directional, 4-layer mutual cryptographic challenge** within a strict 2000ms window before sensitive network traffic is permitted.
 
 ---
 
-## 🔄 System Architecture & Data Flow
+## 2. Cryptographic Trust Model & Handshake Protocol
 
 ```
-[ Flutter Mobile App (Verifier) ]                            [ ESP32 Hardware (Prover) ]
-           |                                                              |
-           |--- 1. Connects to SSID (e.g., 'Railway_Free_WiFi') --------->|
-           |                                                              |
-           |<-- 2. Local IP Assigned via DHCP (e.g., 192.168.4.2) --------|
-           |                                                              |
-           |--- 3. Generates Random Nonce (e.g., "challenge_9A4bX")       |
-           |--- 4. HTTP POST /verify { "nonce": "challenge_9A4bX" } ----->|
-           |                                                              |
-           |                                                 [ Hashes Nonce ]
-           |                                                 [ Signs with 32B Private Key ]
-           |<-- 5. HTTP 200 OK { "signature": [64-byte array] } ----------|
-           |                                                              |
-[ Verifies Signature with Public Key ]                                    |
-[ Updates UI: Green (Verified) / Red (Hostile) ]                          |
+PHONE CLIENT                                    ESP32 GATEWAY (192.168.4.1)
+  │                                                        │
+  │─── 1. POST /api/v1/mutual_auth {client_nonce} ────────>│
+  │                                                        │ 2. Signs client_nonce
+  │                                                        │    Generates router_nonce
+  │<── 3. {signature, certificate, router_nonce} ──────────│
+  │
+  │─── 4. Phone Evaluates 4 Verification Layers:
+  │       [Layer 1] Validate Certificate against Root CA Public Key
+  │       [Layer 2] Validate Signature against Certified Gateway Key
+  │       [Layer 3] Freshness check (client_nonce match, timestamp)
+  │       [Layer 4] Local Revocation List (CRL) check (Device ID)
+  │       *Any failure -> "KIWI Iron Gate" Hostile State + Threat Log
+  │
+  │─── 5. POST /api/v1/client_verify {signature, nonce} ──>│
+  │                                                        │ 6. Validates router_nonce
+  │                                                        │    Checks single-use TTL
+  │                                                        │    Verifies phone sig
+  │<── 7. HTTP 200 { status: "authorized" } ───────────────│
+  │
+  ▼
+SHIELD ACTIVE / VERIFIED (Safe Connection Established)
 ```
+
+### The 4 Verification Layers (Direction 1)
+- **Layer 1 (Root CA Binding)**: Reconstructs canonical payload `KIWI-CERT:v1:<device_id>:<public_key_hex>:<issued_at>` and verifies the signature using the hardcoded KIWI Root CA public key.
+- **Layer 2 (Challenge-Response Proof-of-Possession)**: Verifies the gateway holds the private key matching the certified public key by validating the signature of `KIWI-AUTH:v1:<client_nonce_hex>`.
+- **Layer 3 (Freshness & Anti-Replay)**: Enforces that the gateway signed the freshly generated 32-byte nonce (not a replayed signature) and validates that certificate `issued_at` is temporally sane.
+- **Layer 4 (Authoritative Revocation)**: Confirms `device_id` is not listed in the locally cached Certificate Revocation List (CRL).
+
+### Gateway Client Verification (Direction 2)
+The phone signs the gateway's 32-byte `router_nonce` using its own Ed25519 private key (stored in Android Keystore / iOS Keychain via `flutter_secure_storage`). The gateway validates the signature and ensures the nonce is single-use with a 30-second TTL.
 
 ---
 
-## 📂 Repository Structure
+## 3. Security Tradeoffs & Architectural Decisions
 
-```text
+### A. Revocation List (CRL) Staleness When Offline
+* **The Challenge**: When a mobile device first connects to a captive or untrusted gateway, it has no WAN/Internet connectivity to query a live OCSP server or download an updated CRL.
+* **Our Tradeoff & Mitigation**:
+  1. **Locally Cached CRL with Timestamp**: The app persists the most recent CRL fetched during normal internet usage.
+  2. **Staleness Grace Period**: The app verifies device IDs against the cached list. If the cache is older than 7 days, an amber warning banner is displayed while still enforcing Layers 1, 2, and 3.
+  3. **Time-Bounded Certificates**: Gateway certificates include an `issued_at` timestamp. In production, certificates expire within 30 to 90 days, limiting the window of vulnerability if a compromised gateway is revoked.
+
+### B. Hardware Key Isolation & NVS on ESP32
+* **On-Device Key Generation**: Keys are generated directly on the ESP32 using hardware entropy (`esp_random()`). The private key never leaves the chip.
+* **Production vs Development Flash Encryption**:
+  - In production, ESP32 hardware **Flash Encryption (eFuse)** and **Secure Boot** must be burned so the NVS partition is encrypted by the chip's internal AES-XTS engine.
+  - In development mode without burned eFuses, NVS is protected by chip partition boundaries, and keys can be securely wiped using the serial command `CLEAR_NVS`.
+
+### C. Zero-Heap Crypto Guarantees
+All cryptographic operations in the ESP32 firmware use fixed static buffers (`uint8_t[32]`, `uint8_t[64]`). No heap memory (`malloc`, `new`, or dynamic `String` buffers) is allocated in the signature or verification pathways, preventing memory fragmentation and heap-based denial of service.
+
+### D. Threat Logging Independence
+If a user deliberately triggers the **"Advanced Security Bypass"** on a hostile network, KIWI records the incident in the local forensic Threat Audit Log *before* allowing the bypass, preserving tamper-resistant incident history.
+
+---
+
+## 4. Monorepo Structure
+
+```
 kiwi/
-├── docs/                                  # Specifications and design documents
-├── firmware/                              # ESP32 C++ / Arduino sketch
-│   └── kiwi_trust_anchor/                 # AP mode & Ed25519 signing web server
-├── mobile_app/                            # Flutter mobile verifier client
-│   ├── lib/                               # Application source code
-│   └── test/                              # Cryptographic unit tests
-├── .gitignore                             # Git ignore configuration
-└── README.md                              # Project overview
+├── README.md                     # Monorepo architecture & security specs
+├── provisioning/                 # Offline Root CA & Provisioning Toolchain (Python 3)
+│   ├── generate_root_key.py      # Generates Root CA Ed25519 keypair into secure vault
+│   ├── sign_gateway_cert.py      # Signs gateway public keys with Root CA private key
+│   ├── manage_revocation.py      # CLI tool to add/remove/list revoked gateway IDs
+│   ├── verify_cert.py            # Standalone certificate verification utility
+│   ├── test_provisioning_flow.py # End-to-end automated test suite
+│   ├── revocation_list.json      # Starter Certificate Revocation List (CRL)
+│   ├── requirements.txt          # Python dependencies (cryptography>=41.0.0)
+│   └── vault/                    # Secure local vault (0600 file permissions, excluded from commits)
+│       ├── root_private_key.json # SENSITIVE: Root CA private key
+│       └── root_public_key.hex   # Authoritative Root CA public key
+├── firmware/                     # Arduino IDE Gateway Sketch (NOT PlatformIO)
+│   ├── README.md                 # Setup guide, library manager names, flashing steps
+│   └── kiwi_gateway/             # Standard Arduino IDE sketch directory
+│       ├── kiwi_gateway.ino      # Main sketch entry point & serial CLI processor
+│       ├── crypto_utils.h/.cpp   # Ed25519 zero-heap operations via rweather/Crypto
+│       ├── nvs_storage.h/.cpp    # Preferences NVS flash key & certificate storage
+│       ├── web_server.h/.cpp     # ESPAsyncWebServer mutual auth & CORS routes
+│       └── oled_display.h/.cpp   # Optional SSD1306 OLED status display (USE_OLED)
+└── mobile/                       # Flutter Mobile Companion App (Dart SDK >=3.0.0)
+    ├── pubspec.yaml              # Dependencies (cryptography, flutter_secure_storage, etc.)
+    ├── android/                  # Android configuration with cleartext traffic enabled
+    ├── lib/
+    │   ├── main.dart             # App bootstrap & service dependency injection
+    │   ├── constants/            # Root CA public key constant & protocol definitions
+    │   ├── models/               # Data structures & verification layer representations
+    │   ├── services/
+    │   │   ├── crypto_service.dart  # 4-layer validation & RFC 8032 signing
+    │   │   ├── storage_service.dart # Keystore/Keychain secure key & threat log storage
+    │   │   └── network_service.dart # 2000ms SLA mutual handshake orchestrator
+    │   ├── theme/                # Material 3 Dark theme (#0F172A base, #14B8A6 teal)
+    │   └── screens/
+    │       ├── scanner_screen.dart    # Live AP scanner & demo test matrix
+    │       ├── status_screen.dart     # Challenging / Verified / Iron Gate states
+    │       └── threat_log_screen.dart # Forensic threat audit log & bypass tracker
+    └── test/                     # Unit test suites (crypto, 4-layer checks, threat log)
 ```
 
 ---
 
-## 🧰 Tech Stack
+## 5. Quickstart & Verification
 
-| Component | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Hardware Gateway** | ESP32 (NodeMCU / DevKit) | Physical Trust Anchor & SoftAP |
-| **Firmware Framework** | C++ / Arduino IDE / ESP-IDF | Low-level execution & AP management |
-| **Firmware Crypto** | Southern_Storm_Crypto (`Crypto.h`) | Hardware-optimized Ed25519 signing |
-| **Client App** | Flutter / Dart | Cross-platform mobile verifier & UI |
-| **Client Crypto** | `cryptography` package (Dart) | Ed25519 signature verification |
-| **Networking** | `http` package (Dart) | Local gateway challenge-response communication |
+### 1. Test Provisioning Toolchain
+```bash
+cd kiwi/provisioning
+python3 test_provisioning_flow.py
+```
 
----
+### 2. Verify Flutter Mobile App
+```bash
+cd kiwi/mobile
+flutter pub get
+flutter analyze
+flutter test
+```
 
-## 🚀 Getting Started
-
-### Prerequisites
-- **Flutter SDK** (3.x+) & Android Studio / VS Code
-- **Arduino IDE** (or PlatformIO) with ESP32 board definitions installed
-- An **ESP32 development board** and a micro-USB/Type-C data cable
-
----
-
-### 1. Hardware & Firmware Setup (`/firmware`)
-1. Open the Arduino IDE.
-2. Go to **Tools > Manage Libraries...** and search for **`Crypto` by Rhys Weatherley** (`Southern_Storm_Crypto`). Install it.
-3. Open `firmware/kiwi_trust_anchor/kiwi_trust_anchor.ino`.
-4. Flash the sketch to the ESP32.
-5. The ESP32 will broadcast an Access Point (default: `Kiwi_WiFi`) and listen for verification challenges on `http://192.168.4.1/verify`.
-
----
-
-### 2. Mobile App Setup (`/mobile_app`)
-1. Navigate to the mobile app directory:
-   ```bash
-   cd mobile_app
-   ```
-2. Install dependencies:
-   ```bash
-   flutter pub get
-   ```
-3. Run the cryptographic verification tests:
-   ```bash
-   flutter test
-   ```
-4. Launch the app on an Android device or emulator:
-   ```bash
-   flutter run
-   ```
-
----
-
-## 🧪 Verification & Demo Walkthrough
-
-1. **Legitimate Network Demo (Green State):**
-   - Connect the mobile device to the ESP32 Wi-Fi AP.
-   - Open Kiwi and tap **Verify Network**.
-   - The app exchanges the nonce challenge with the ESP32, verifies the signature against the pre-bundled public key, and transitions to the **Green ("Hardware Cryptography Verified")** screen.
-
-2. **Evil Twin Simulation (Red State):**
-   - Turn on a mobile hotspot with the exact same SSID as the ESP32.
-   - Disconnect the ESP32 or connect the client to the hotspot.
-   - Tap **Verify Network**.
-   - The rogue AP fails to return a valid Ed25519 signature, immediately triggering the **Red ("Connection Blocked: No Hardware Signature Detected")** "Iron Gate" screen.
-
----
-
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
+### 3. Flash & Provision ESP32 Gateway
+1. Open `kiwi/firmware/kiwi_gateway/kiwi_gateway.ino` in Arduino IDE.
+2. Install required libraries: `Crypto` (rweather), `ArduinoJson`, `ESPAsyncWebServer`, `AsyncTCP`.
+3. Select Board: `ESP32 Dev Module`, Partition: `Huge APP (3MB)`.
+4. Upload to ESP32 and open Serial Monitor at `115200` baud.
+5. Follow the step-by-step provisioning guide in `firmware/README.md`.

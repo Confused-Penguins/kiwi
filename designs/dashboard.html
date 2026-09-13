@@ -1,0 +1,153 @@
+<!-- Kiwi Security - Dashboard -->
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Kiwi Security Dashboard</title>
+<!-- Tailwind CSS v3 with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration for precise design replication -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            app: {
+              bg: '#DCE0E5',
+              text: '#111827',
+              pill: '#111827',
+              secondary: '#6B7280',
+              card: '#FFFFFF'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Helvetica', 'Arial', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    body {
+      background-color: #CBD5E1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 select-none bg-[#CBD5E1]">
+<!-- BEGIN: MobileDeviceFrame (Clean flat 2D artboard) -->
+<div class="relative w-[393px] h-[852px] bg-[#E9EDF0] rounded-[36px] overflow-hidden flex flex-col justify-between shadow-2xl" data-purpose="mobile-viewport">
+<!-- BEGIN: TopAppContainer -->
+<div class="relative z-10 flex flex-col flex-1">
+<!-- BEGIN: StatusBar -->
+<header class="w-full h-10 px-6 flex justify-between items-center text-[#111827] shrink-0 text-xs font-semibold" data-purpose="android-status-bar">
+  <span class="text-[14px] font-medium tracking-normal text-[#111827]">09:41</span>
+  <div class="w-2.5 h-2.5 rounded-full bg-black mx-auto"></div>
+  <div class="flex items-center space-x-1.5 text-[#111827]">
+    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+      <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4z"></path>
+    </svg>
+    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+      <path d="M2 22h20V2L2 22z"></path>
+    </svg>
+    <div class="flex items-center gap-1 pl-0.5">
+      <span class="text-[11px] font-semibold">94%</span>
+      <svg class="w-4 h-3 fill-current" viewBox="0 0 24 24">
+        <path d="M17 4h-3V2h-4v2H7v18h10V4z"></path>
+      </svg>
+    </div>
+  </div>
+</header>
+<!-- END: StatusBar -->
+<!-- BEGIN: HeroHeader -->
+<section class="px-6 pt-3 pb-2" data-purpose="screen-headline">
+<!-- Top Action Bar (Avatar & Theme Toggle) -->
+<div class="flex items-center justify-between w-full mb-4">
+  <span class="text-xl font-extrabold text-[#111827] tracking-wider">KIWI</span>
+  <div class="bg-white border border-[#E5E7EB] px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer">
+    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+    <svg class="w-3.5 h-3.5 text-[#111827] fill-current" viewBox="0 0 24 24">
+      <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4z"></path>
+    </svg>
+    <span class="text-xs font-semibold text-[#111827]">Connected: Station_WiFi</span>
+  </div>
+</div>
+<!-- Kiwi Bird Mascot with Ambient Radial Halo -->
+<div class="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-3 shadow-[0_4px_16px_rgba(0,0,0,0.05)]"><svg class="w-9 h-9 text-[#111827]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 32 32"><path d="M22 13c0-3.314-2.239-6-5-6-2.022 0-3.784 1.43-4.57 3.5C11.5 10.3 10.5 10 9.5 10c-3.038 0-5.5 2.686-5.5 6 0 4.418 3.582 8 8 8 2.22 0 4.23-.9 5.67-2.36C20.17 20.35 22 17 22 13Z"></path><circle cx="18" cy="10" r="0.75" fill="currentColor"></circle><path d="M22 11c3 0.5 6.5 2 7.5 5.5"></path><path d="M10 24v4m0 0l-2 1m2-1l2 0.5"></path><path d="M15 24v4m0 0l-2 1m2-1l2 0.5"></path></svg></div>
+<!-- Greeting & Subtext -->
+<h1 class="text-[28px] font-bold tracking-tight text-[#0B0F19] leading-[1.18]">
+  Hi User,<br>
+  Let's secure your<br>
+  connection.
+</h1>
+</section>
+<!-- END: HeroHeader -->
+<!-- BEGIN: MainDashboardGrid (2x2 Balanced Square Cards) -->
+<main class="px-6 grid grid-cols-2 gap-3.5 my-auto" data-purpose="features-grid">
+<!-- Card 1: KIWI Scan -->
+<article class="bg-white rounded-[24px] p-4 flex flex-col justify-between aspect-square active:scale-[0.98] transition cursor-pointer shadow-sm">
+<div class="w-10 h-10 rounded-2xl bg-[#F1F5F9] flex items-center justify-center">
+<svg class="w-5 h-5 text-[#0B0F19]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+<path d="M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path>
+<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+<path d="M12 12l6 -6"></path>
+</svg>
+</div>
+<div>
+<h2 class="font-bold text-[15px] text-[#0B0F19] leading-tight">KIWI Scan</h2>
+<p class="text-xs text-[#64748B] font-normal mt-0.5 leading-tight truncate">Find &amp; Verify Wi-Fi</p>
+</div>
+</article>
+<!-- Card 2: Shield Status -->
+<article class="bg-white rounded-[24px] p-4 flex flex-col justify-between aspect-square active:scale-[0.98] transition cursor-pointer shadow-sm">
+<div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+<svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+</div>
+<div>
+<h2 class="font-bold text-[15px] text-[#0B0F19] leading-tight">Shield Status</h2>
+<p class="text-xs text-emerald-600 font-semibold mt-0.5 leading-tight truncate">Protected (Active)</p>
+</div>
+</article>
+<!-- Card 3: Incident Log -->
+<article class="bg-white rounded-[24px] p-4 flex flex-col justify-between aspect-square active:scale-[0.98] transition cursor-pointer shadow-sm">
+<div class="w-10 h-10 rounded-2xl bg-[#F1F5F9] flex items-center justify-center">
+<svg class="w-5 h-5 text-[#0B0F19]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+<line x1="12" x2="12" y1="8" y2="12"></line>
+<line x1="12" x2="12.01" y1="16" y2="16"></line>
+</svg>
+</div>
+<div>
+<h2 class="font-bold text-[15px] text-[#0B0F19] leading-tight">Incident Log</h2>
+<p class="text-xs text-[#64748B] font-normal mt-0.5 leading-tight truncate">0 Threats Detected</p>
+</div>
+</article>
+<!-- Card 4: Trust Profile -->
+<article class="bg-white rounded-[24px] p-4 flex flex-col justify-between aspect-square active:scale-[0.98] transition cursor-pointer shadow-sm">
+  <div class="w-10 h-10 rounded-2xl bg-[#F1F5F9] flex items-center justify-center">
+    <svg class="w-5 h-5 text-[#0B0F19]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+  </div>
+  <div>
+    <h2 class="font-bold text-[15px] text-[#0B0F19] leading-tight">Location</h2>
+    <p class="text-xs text-[#64748B] font-normal mt-0.5 leading-tight truncate">Set Area</p>
+  </div>
+</article>
+</main>
+<!-- END: MainDashboardGrid -->
+</div>
+<!-- END: TopAppContainer -->
+<!-- BEGIN: BottomNavigationArea -->
+<footer class="relative z-10 w-full px-6 pb-3 pt-2 flex flex-col items-center shrink-0" data-purpose="bottom-navigation">
+  <div class="w-[72px] h-[3px] bg-[#64748B]/40 rounded-full mx-auto" data-purpose="android-gesture-bar"></div>
+</footer>
+<!-- END: BottomNavigationArea -->
+</div>
+<!-- END: MobileDeviceFrame -->
+</body></html>
