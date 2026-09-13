@@ -78,56 +78,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   color: Color(0xFF111827),
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.03),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 8,
-                                      height: 8,
-                                      decoration: BoxDecoration(
-                                        color: _isSecured
-                                            ? const Color(0xFF10B981)
-                                            : _activeSsid != "Disconnected"
-                                                ? const Color(0xFFEF4444)
-                                                : const Color(0xFF9CA3AF),
-                                        shape: BoxShape.circle,
+                              const SizedBox(width: 12),
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(24),
+                                    border: Border.all(color: const Color(0xFFE5E7EB)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(alpha: 0.03),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
                                       ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    const Icon(
-                                      Icons.wifi_rounded,
-                                      size: 14,
-                                      color: Color(0xFF111827),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    ConstrainedBox(
-                                      constraints: const BoxConstraints(maxWidth: 160),
-                                      child: Text(
-                                        _activeSsid != "Disconnected" ? "Connected: $_activeSsid" : "Disconnected",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF111827),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: _isSecured
+                                              ? const Color(0xFF10B981)
+                                              : _activeSsid != "Disconnected"
+                                                  ? const Color(0xFFEF4444)
+                                                  : const Color(0xFF9CA3AF),
+                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(width: 6),
+                                      const Icon(
+                                        Icons.wifi_rounded,
+                                        size: 14,
+                                        color: Color(0xFF111827),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Flexible(
+                                        child: Text(
+                                          _activeSsid != "Disconnected" ? "Connected: $_activeSsid" : "Disconnected",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF111827),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -151,9 +153,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ],
                             ),
                             child: Center(
-                              child: CustomPaint(
-                                size: const Size(40, 40),
-                                painter: _KiwiBirdPainter(),
+                              child: Image.asset(
+                                'assets/images/kiwi_logo.png',
+                                width: 44,
+                                height: 44,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
@@ -371,49 +375,4 @@ class _DashboardGridCard extends StatelessWidget {
   }
 }
 
-/// Custom Kiwi Bird Mascot Painter
-class _KiwiBirdPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFF111827)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
 
-    final fillPaint = Paint()
-      ..color = const Color(0xFF111827)
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-    // Body curve
-    path.addOval(Rect.fromLTWH(size.width * 0.15, size.height * 0.25, size.width * 0.6, size.height * 0.55));
-    canvas.drawPath(path, paint);
-
-    // Beak
-    canvas.drawLine(
-      Offset(size.width * 0.72, size.height * 0.4),
-      Offset(size.width * 0.95, size.height * 0.52),
-      paint,
-    );
-
-    // Eye
-    canvas.drawCircle(Offset(size.width * 0.6, size.height * 0.38), 1.5, fillPaint);
-
-    // Legs
-    canvas.drawLine(
-      Offset(size.width * 0.35, size.height * 0.8),
-      Offset(size.width * 0.35, size.height * 0.95),
-      paint,
-    );
-    canvas.drawLine(
-      Offset(size.width * 0.52, size.height * 0.8),
-      Offset(size.width * 0.52, size.height * 0.95),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
