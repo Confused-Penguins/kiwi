@@ -106,6 +106,8 @@ kiwi/
 │       └── oled_display.h/.cpp   # Optional SSD1306 OLED status display (USE_OLED)
 └── mobile/                       # Flutter Mobile Companion App (Dart SDK >=3.0.0)
     ├── pubspec.yaml              # Dependencies (cryptography, flutter_secure_storage, etc.)
+    ├── assets/
+    │   └── images/               # Official Kiwi logo assets (kiwi_logo.png, app_icon.png)
     ├── android/                  # Android configuration with cleartext traffic enabled
     ├── lib/
     │   ├── main.dart             # App bootstrap & service dependency injection
@@ -115,10 +117,12 @@ kiwi/
     │   │   ├── crypto_service.dart  # 4-layer validation & RFC 8032 signing
     │   │   ├── storage_service.dart # Keystore/Keychain secure key & threat log storage
     │   │   └── network_service.dart # 2000ms SLA mutual handshake orchestrator
-    │   ├── theme/                # Material 3 Dark theme (#0F172A base, #14B8A6 teal)
+    │   ├── theme/                # Material 3 Light/Slate theme (#DCE0E5 base, #111827 charcoal)
     │   └── screens/
+    │       ├── dashboard_screen.dart  # Main dashboard, mascot header & action grid
     │       ├── scanner_screen.dart    # Live AP scanner & demo test matrix
     │       ├── status_screen.dart     # Challenging / Verified / Iron Gate states
+    │       ├── location_screen.dart   # Location search & safe zone area setup
     │       └── threat_log_screen.dart # Forensic threat audit log & bypass tracker
     └── test/                     # Unit test suites (crypto, 4-layer checks, threat log)
 ```
